@@ -9,28 +9,32 @@ import { Model } from 'mongoose';
 @Injectable()
 export class PlayersService {
   constructor(
-    @InjectModel('player') private readonly playerModel: Model<Player>,
+    @InjectModel('players') private readonly playerModel: Model<Player>,
   ) {}
+
   players: Player[] = [];
   private readonly logger = new Logger(PlayersService.name);
 
   async createOrUpdatePlayer(player: CreatePlayerDto): Promise<void> {
     const { email } = player;
-    const result = await this.playerModel.findOne({ email }).exec();
-    if (result) await this.updatePlayer(result, player);
+    const result = await this.findPlayerByEmail(email);
+    if (result) {
+      await this.updatePlayer(player);
+      return;
+    }
     await this.create(player);
   }
 
-  async updatePlayer(
-    targetPlayer: Player,
-    createPlayerDto: CreatePlayerDto,
-  ): Promise<void> {
-    const { name } = createPlayerDto;
-    targetPlayer.name = name;
+  async updatePlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {
+    const { email } = createPlayerDto;
+    const result = await this.playerModel
+      .findOneAndUpdate({ email }, { $set: createPlayerDto })
+      .exec();
+    return result;
   }
 
   async findPlayerByEmail(email: string): Promise<Player> {
-    const player = this.players.find((player) => player.email === email);
+    const player = this.playerModel.findOne({ email }).exec();
     if (!player) {
       throw new NotFoundException('Could not find player');
     }
@@ -38,14 +42,11 @@ export class PlayersService {
   }
 
   async deletePlayer(email: string): Promise<void> {
-    const result = await this.findPlayerByEmail(email);
-    this.players = this.players.filter(
-      (player) => player.email !== result.email,
-    );
+    await this.playerModel.deleteOne({ email }).exec();
   }
 
   async getPlayers(): Promise<Player[]> {
-    return await this.players;
+    return await this.playerModel.find().exec();
   }
 
   private async create(player: CreatePlayerDto): Promise<Player> {
