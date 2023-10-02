@@ -12,5 +12,6 @@ export default class PlayerValidationParams implements PipeTransform {
         `The ${metadata.type} parameter is required`,
       );
     }
+    return value;
   }
 }
