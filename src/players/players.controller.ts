@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 // DTOS
 import { CreatePlayerDto } from './dtos/create-player.dto';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 // Services
 import { PlayersService } from './players.service';
 // Types
@@ -30,7 +31,7 @@ export class PlayersController {
   @Put('/:id')
   async updatePlayer(
     @Param('_id', PlayerValidationParams) _id: string,
-    @Body() player: CreatePlayerDto,
+    @Body() player: UpdatePlayerDto,
   ) {
     return await this.playersService.updatePlayer(_id, player);
   }
