@@ -28,7 +28,8 @@ export class PlayersController {
   async createPlayer(@Body() player: CreatePlayerDto) {
     return await this.playersService.createPlayer(player);
   }
-  @Put('/:id')
+
+  @Put('/:_id')
   async updatePlayer(
     @Param('_id', PlayerValidationParams) _id: string,
     @Body() player: UpdatePlayerDto,
