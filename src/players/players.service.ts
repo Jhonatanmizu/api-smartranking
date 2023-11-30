@@ -23,7 +23,7 @@ export class PlayersService {
 
   async createPlayer(player: CreatePlayerDto): Promise<Player> {
     const { email } = player;
-    const result = await this.findPlayerByEmail(email);
+    const result = await this.playerModel.findOne({ email });
     if (result) {
       throw new BadRequestException(
         `User already exists with email: ${player.email}`,
