@@ -74,6 +74,7 @@ export class PlayersService {
   }
 
   async deletePlayer(_id: string): Promise<number> {
+    await this.findOnePlayerById(_id);
     const result = await this.playerModel.deleteOne({ _id }).exec();
     return result.deletedCount;
   }
