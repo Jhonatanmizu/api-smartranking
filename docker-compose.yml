@@ -6,6 +6,7 @@ services:
     container_name: api-smartranking
     environment:
       - PORT=${PORT}
+      - DATABASE_URL=${DATABASE_URL}
     ports:
       - ${PORT}:${PORT}
     depends_on:
