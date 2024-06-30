@@ -8,6 +8,7 @@ import {
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { Player } from './interfaces/player.interface';
 import { Model } from 'mongoose';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 
 @Injectable()
 export class PlayersService {
@@ -31,14 +32,14 @@ export class PlayersService {
     return await newPlayer.save();
   }
 
-  async update(_id: string, createPlayer: CreatePlayerDto): Promise<Player> {
+  async update(_id: string, updatePlayerDto: UpdatePlayerDto): Promise<Player> {
     await this.findOnePlayerById(_id);
     return await this.playerModel
       .findByIdAndUpdate(
         {
           _id,
         },
-        { $set: createPlayer },
+        { $set: updatePlayerDto },
       )
       .exec();
   }
