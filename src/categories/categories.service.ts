@@ -1,8 +1,14 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CATEGORY_MODEL } from './categories.providers';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { Category } from './interfaces/category.interface';
+import { UpdateCategoryDto } from './dtos/update-category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -10,6 +16,7 @@ export class CategoriesService {
     @Inject(CATEGORY_MODEL)
     private readonly categoryModel: Model<Category>,
   ) {}
+
   async createCategory(
     createCategoryDto: CreateCategoryDto,
   ): Promise<Category> {
@@ -18,10 +25,61 @@ export class CategoriesService {
 
     if (exists) {
       throw new BadRequestException(
-        `Player with cateogry ${category} already exists`,
+        `Player with category ${category} already exists`,
       );
     }
     const newCategory = new this.categoryModel(createCategoryDto);
     return await newCategory.save();
+  }
+
+  async findAll(): Promise<Category[]> {
+    const categories = await this.categoryModel.find().exec();
+    return categories;
+  }
+
+  async findOne(_id: string): Promise<Category | null> {
+    const exists = await this.categoryModel
+      .findOne({
+        _id,
+      })
+      .exec();
+
+    if (!exists) {
+      throw new NotFoundException(`
+        Category with _id:${_id} not found
+        `);
+    }
+
+    return exists;
+  }
+
+  async deleteCategory(_id: string): Promise<number> {
+    const result = await this.categoryModel
+      .deleteOne({
+        _id,
+      })
+      .exec();
+    return result.deletedCount;
+  }
+
+  async updateCategory(
+    _id: string,
+    updateCategory: UpdateCategoryDto,
+  ): Promise<number> {
+    const exists = await this.categoryModel
+      .findOne({
+        _id,
+      })
+      .exec();
+
+    if (!exists) {
+      throw new NotFoundException(`
+          Category with _id:${_id} not found
+          `);
+    }
+
+    const result = await this.categoryModel.updateOne({ _id }, updateCategory);
+
+    return result.modifiedCount;
   }
 }
