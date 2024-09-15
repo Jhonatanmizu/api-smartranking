@@ -65,7 +65,7 @@ export class CategoriesService {
   async updateCategory(
     _id: string,
     updateCategory: UpdateCategoryDto,
-  ): Promise<number> {
+  ): Promise<void> {
     const exists = await this.categoryModel
       .findOne({
         _id,
@@ -78,8 +78,6 @@ export class CategoriesService {
           `);
     }
 
-    const result = await this.categoryModel.updateOne({ _id }, updateCategory);
-
-    return result.modifiedCount;
+    await this.categoryModel.findOneAndUpdate({ _id }, updateCategory).exec();
   }
 }
