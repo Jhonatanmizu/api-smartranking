@@ -1,0 +1,84 @@
+# SMARTRANKING  API REQUESTS
+
+## VARIABLES
+@apiurl = http://localhost:3000
+
+
+################## PLAYERS RELATED ##################
+@playerId = 67945c8d0ebd8a00728ae7b5
+
+### GET PLAYERS
+GET {{apiurl}}/api/v1/players
+
+### CREATE PLAYER
+POST {{apiurl}}/api/v1/players
+Content-Type: application/json
+
+{
+  "name": "Player Name",
+  "email": "player@example.com",
+  "phoneNumber": "1234567890"
+}
+
+### GET PLAYER BY ID
+GET {{apiurl}}/api/v1/players/{{playerId}}
+
+### UPDATE PLAYER BY ID
+PUT {{apiurl}}/api/v1/players/{{playerId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Player Name",
+  "email": "updatedplayer@example.com",
+  "phoneNumber": "0987654321"
+}
+
+### DELETE PLAYER BY ID
+DELETE {{apiurl}}/api/v1/players/{{playerId}}
+
+#####################################################
+
+
+
+################## CATEGORIES RELATED ##################
+@categoryId = 67945fa2b553f86f559ad0bc
+
+### GET CATEGORIES
+GET {{apiurl}}/api/v1/categories
+
+### CREATE CATEGORY
+POST {{apiurl}}/api/v1/categories
+Content-Type: application/json
+
+{
+  "name": "Category Name",
+  "description": "Category Description",
+  "events":[{
+    "name":"party"
+  }]
+}
+
+### ASSIGN PLAYER TO CATEGORY
+POST {{apiurl}}/api/v1/categories/{{categoryId}}/players/{{playerId}}
+Content-Type: application/json
+
+{
+
+}
+
+### GET CATEGORY BY ID
+GET {{apiurl}}/api/v1/categories/{{categoryId}}
+
+### UPDATE CATEGORY BY ID
+PUT {{apiurl}}/api/v1/categories/{{categoryId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Category Name",
+  "description": "Updated Category Description"
+}
+
+### DELETE CATEGORY BY ID
+DELETE {{apiurl}}/api/v1/categories/{{categoryId}}
+
+#####################################################
