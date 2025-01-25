@@ -50,7 +50,15 @@ export class CategoriesController {
   async updateCategory(
     @Param('_id', ParamsValidationPipe) _id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
-  ): Promise<number> {
-    return await this.categoriesService.updateCategory(_id, updateCategoryDto);
+  ): Promise<void> {
+    await this.categoriesService.updateCategory(_id, updateCategoryDto);
+  }
+
+  @Post('/:category/players/:player')
+  async assignPlayerToCategory(@Param() params: string[]): Promise<void> {
+    const _categoryId = params['category'];
+    const _playerId = params['player'];
+
+    await this.categoriesService.assignPlayerToCategory(_playerId, _categoryId);
   }
 }

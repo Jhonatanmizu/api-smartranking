@@ -1,3 +1,12 @@
-import { CreateCategoryDto } from './create-category.dto';
+import { ArrayMinSize, IsArray, IsOptional, IsString } from 'class-validator';
+import { Event } from '../interfaces/category.interface';
 
-export class UpdateCategoryDto extends CreateCategoryDto {}
+export class UpdateCategoryDto {
+  @IsString()
+  @IsOptional()
+  description: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  events: Array<Event>;
+}
