@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   Logger,
   NotFoundException,
@@ -8,15 +7,15 @@ import {
 import { Model } from 'mongoose';
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { UpdatePlayerDto } from './dtos/update-player.dto';
-import { Player } from './interfaces/player.interface';
-import { PLAYER_MODEL } from './players.provider';
+import { Player } from './schemas/player.schema';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class PlayersService {
   private logger: Logger = new Logger('PlayersService');
 
   constructor(
-    @Inject(PLAYER_MODEL)
+    @InjectModel(Player.name)
     private readonly playerModel: Model<Player>,
   ) {}
 

@@ -1,20 +1,19 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { CATEGORY_MODEL } from './categories.providers';
 import { CreateCategoryDto } from './dtos/create-category.dto';
-import { Category } from './interfaces/category.interface';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
-import { PlayersService } from 'src/players/players.service';
+import { Category } from './schema/category.schema';
+import { PlayersService } from '../players/players.service';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class CategoriesService {
   constructor(
-    @Inject(CATEGORY_MODEL)
+    @InjectModel(Category.name)
     private readonly categoryModel: Model<Category>,
     private readonly playerService: PlayersService,
   ) {}
@@ -90,33 +89,36 @@ export class CategoriesService {
     _playerId: string,
     _categoryId: string,
   ): Promise<void> {
-    const resultCategory = await this.categoryModel
-      .findOne({ _id: _categoryId })
-      .exec();
+    console.log('_player', _playerId);
+    console.log('_category', _categoryId);
 
-    const playersInCategory = await this.categoryModel
-      .find({ _id: _categoryId })
-      .where('players')
-      .in([_playerId])
-      .exec();
-    const playerIsAlreadyInCategory = playersInCategory.length > 0;
+    // const resultCategory = await this.categoryModel
+    //   .findOne({ _id: _categoryId })
+    //   .exec();
 
-    if (playerIsAlreadyInCategory) {
-      throw new BadRequestException(
-        `Player ${_categoryId} is already in the Category ${_categoryId}`,
-      );
-    }
+    // const playersInCategory = await this.categoryModel
+    //   .find({ _id: _categoryId })
+    //   .where('players')
+    //   .in([_playerId])
+    //   .exec();
+    // const playerIsAlreadyInCategory = playersInCategory.length > 0;
 
-    await this.playerService.findOnePlayerById(_playerId);
+    // if (playerIsAlreadyInCategory) {
+    //   throw new BadRequestException(
+    //     `Player ${_categoryId} is already in the Category ${_categoryId}`,
+    //   );
+    // }
 
-    if (!resultCategory) {
-      throw new BadRequestException(`Category ${_categoryId} does not exists`);
-    }
+    // const player = await this.playerService.findOnePlayerById(_playerId);
 
-    resultCategory.players.push(_playerId);
+    // if (!resultCategory) {
+    //   throw new BadRequestException(`Category ${_categoryId} does not exists`);
+    // }
 
-    this.categoryModel
-      .findOneAndUpdate({ _id: _categoryId }, resultCategory)
-      .exec();
+    // resultCategory.players.push(player);
+
+    // this.categoryModel
+    //   .findOneAndUpdate({ _id: _categoryId }, resultCategory)
+    //   .exec();
   }
 }
