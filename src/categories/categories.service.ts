@@ -86,39 +86,30 @@ export class CategoriesService {
   }
 
   async assignPlayerToCategory(
-    _playerId: string,
-    _categoryId: string,
+    playerId: string,
+    categoryId: string,
   ): Promise<void> {
-    console.log('_player', _playerId);
-    console.log('_category', _categoryId);
+    const category = await this.categoryModel.findById(categoryId).exec();
 
-    // const resultCategory = await this.categoryModel
-    //   .findOne({ _id: _categoryId })
-    //   .exec();
+    if (!category) {
+      throw new BadRequestException(`Category ${categoryId} does not exist`);
+    }
 
-    // const playersInCategory = await this.categoryModel
-    //   .find({ _id: _categoryId })
-    //   .where('players')
-    //   .in([_playerId])
-    //   .exec();
-    // const playerIsAlreadyInCategory = playersInCategory.length > 0;
+    const playerAlreadyInCategory = category.players.some(
+      (id) => id.toString() === playerId,
+    );
 
-    // if (playerIsAlreadyInCategory) {
-    //   throw new BadRequestException(
-    //     `Player ${_categoryId} is already in the Category ${_categoryId}`,
-    //   );
-    // }
+    if (playerAlreadyInCategory) {
+      throw new BadRequestException(
+        `Player ${playerId} is already in the Category ${categoryId}`,
+      );
+    }
 
-    // const player = await this.playerService.findOnePlayerById(_playerId);
+    // validate player exists (throws if not found)
+    await this.playerService.findOnePlayerById(playerId);
 
-    // if (!resultCategory) {
-    //   throw new BadRequestException(`Category ${_categoryId} does not exists`);
-    // }
-
-    // resultCategory.players.push(player);
-
-    // this.categoryModel
-    //   .findOneAndUpdate({ _id: _categoryId }, resultCategory)
-    //   .exec();
+    await this.categoryModel
+      .findByIdAndUpdate(categoryId, { $push: { players: playerId } })
+      .exec();
   }
 }
