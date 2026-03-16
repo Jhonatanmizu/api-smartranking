@@ -1,19 +1,20 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
+import { CATEGORY_MODEL } from './categories.providers';
 import { CreateCategoryDto } from './dtos/create-category.dto';
+import { Category } from './interfaces/category.interface';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
-import { Category } from './schema/category.schema';
-import { PlayersService } from '../players/players.service';
-import { InjectModel } from '@nestjs/mongoose';
+import { PlayersService } from 'src/players/players.service';
 
 @Injectable()
 export class CategoriesService {
   constructor(
-    @InjectModel(Category.name)
+    @Inject(CATEGORY_MODEL)
     private readonly categoryModel: Model<Category>,
     private readonly playerService: PlayersService,
   ) {}
@@ -89,27 +90,33 @@ export class CategoriesService {
     playerId: string,
     categoryId: string,
   ): Promise<void> {
-    const category = await this.categoryModel.findById(categoryId).exec();
+    const resultCategory = await this.categoryModel
+      .findOne({ _id: categoryId })
+      .exec();
 
-    if (!category) {
-      throw new BadRequestException(`Category ${categoryId} does not exist`);
-    }
+    const playersInCategory = await this.categoryModel
+      .find({ _id: categoryId })
+      .where('players')
+      .in([categoryId])
+      .exec();
+    const playerIsAlreadyInCategory = playersInCategory.length > 0;
 
-    const playerAlreadyInCategory = category.players.some(
-      (id) => id.toString() === playerId,
-    );
-
-    if (playerAlreadyInCategory) {
+    if (playerIsAlreadyInCategory) {
       throw new BadRequestException(
-        `Player ${playerId} is already in the Category ${categoryId}`,
+        `Player ${categoryId} is already in the Category ${categoryId}`,
       );
     }
 
-    // validate player exists (throws if not found)
-    await this.playerService.findOnePlayerById(playerId);
+    await this.playerService.findOnePlayerById(_playerId);
 
-    await this.categoryModel
-      .findByIdAndUpdate(categoryId, { $push: { players: playerId } })
+    if (!resultCategory) {
+      throw new BadRequestException(`Category ${_categoryId} does not exists`);
+    }
+
+    resultCategory.players.push(_playerId);
+
+    this.categoryModel
+      .findOneAndUpdate({ _id: _categoryId }, resultCategory)
       .exec();
   }
 }

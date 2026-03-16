@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
 import { PlayersController } from './players.controller';
 import { PlayersService } from './players.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Player, PlayerSchema } from './schemas/player.schema';
+import { DatabaseModule } from '../shared/database/database.module';
+import { PlayerProviders } from './players.provider';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Player.name, schema: PlayerSchema }]),
-  ],
+  imports: [DatabaseModule],
   controllers: [PlayersController],
-  providers: [PlayersService],
+  providers: [PlayersService, ...PlayerProviders],
   exports: [PlayersService],
 })
 export class PlayersModule {}

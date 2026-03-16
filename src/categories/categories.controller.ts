@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { CategoriesService } from './categories.service';
+import { Category } from './interfaces/category.interface';
 import { ParamsValidationPipe } from 'src/shared/pipes';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
-import { Category } from './schema/category.schema';
 
 @Controller('api/v1/categories')
 export class CategoriesController {

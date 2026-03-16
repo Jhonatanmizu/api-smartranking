@@ -1,42 +1,30 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
-import { Player } from 'src/players/schemas/player.schema';
+import * as mongoose from 'mongoose';
 
-export type CategoryDocument = HydratedDocument<Category>;
-
-@Schema({ timestamps: true, collection: 'categories' })
-export class Category {
-  @Prop({ unique: true })
-  name: string;
-
-  @Prop()
-  description: string;
-
-  @Prop({
-    type: [
+export const CategorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      unique: true,
+    },
+    description: {
+      type: String,
+    },
+    events: [
       {
         name: {
-          type: String,
-          operation: String,
-          value: Number,
+          type: { type: String },
+          operation: { type: String },
+          value: { type: Number },
         },
       },
     ],
-    default: [],
-  })
-  events: Array<{
-    name: {
-      type: string;
-      operation: string;
-      value: number;
-    };
-  }>;
 
-  @Prop({
-    type: [{ type: Types.ObjectId, ref: Player.name }],
-    default: [],
-  })
-  players: Types.ObjectId[];
-}
-
-export const CategorySchema = SchemaFactory.createForClass(Category);
+    players: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Player',
+      },
+    ],
+  },
+  { timestamps: true, collection: 'categories' },
+);
