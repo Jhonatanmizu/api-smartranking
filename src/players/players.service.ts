@@ -80,4 +80,8 @@ export class PlayersService {
     const result = await this.playerModel.deleteOne({ _id }).exec();
     return result.deletedCount;
   }
+
+  async findManyPlayers(ids: string[]): Promise<Player[]> {
+    return await this.playerModel.find({ _id: { $in: ids } }).exec();
+  }
 }
