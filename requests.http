@@ -1,7 +1,7 @@
 # SMARTRANKING  API REQUESTS
 
 ## VARIABLES
-@apiurl = http://localhost:3000
+@apiurl = http://localhost:3001
 
 
 ################## PLAYERS RELATED ##################
@@ -15,9 +15,9 @@ POST {{apiurl}}/api/v1/players
 Content-Type: application/json
 
 {
-  "name": "Player Name",
-  "email": "player@example.com",
-  "phoneNumber": "1234567890"
+  "name": "Player Name 2",
+  "email": "player2@example.com",
+  "phoneNumber": "1234567892"
 }
 
 ### GET PLAYER BY ID
