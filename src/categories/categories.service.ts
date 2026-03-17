@@ -7,8 +7,8 @@ import {
 import { Model } from 'mongoose';
 import { CATEGORY_MODEL } from './categories.providers';
 import { CreateCategoryDto } from './dtos/create-category.dto';
-import { Category } from './interfaces/category.interface';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
+import { Category } from './interfaces/category.interface';
 import { PlayersService } from 'src/players/players.service';
 
 @Injectable()
@@ -23,100 +23,72 @@ export class CategoriesService {
     createCategoryDto: CreateCategoryDto,
   ): Promise<Category> {
     const { name } = createCategoryDto;
-    const exists = await this.categoryModel.findOne({ name }).exec();
 
+    const exists = await this.categoryModel.findOne({ name }).lean().exec();
     if (exists) {
-      throw new BadRequestException(`Category with ${name} already exists`);
+      throw new BadRequestException(`Category "${name}" already exists`);
     }
-    const newCategory = new this.categoryModel(createCategoryDto);
-    return await newCategory.save();
+
+    return new this.categoryModel(createCategoryDto).save();
   }
 
   async findAll(): Promise<Category[]> {
-    const categories = await this.categoryModel
-      .find()
-      .populate('players')
-      .exec();
-    return categories;
+    return this.categoryModel.find().populate('players').exec();
   }
 
-  async findOne(_id: string): Promise<Category | null> {
-    const exists = await this.categoryModel
-      .findOne({
-        _id,
-      })
-      .exec();
-
-    if (!exists) {
-      throw new NotFoundException(`
-        Category with _id:${_id} not found
-        `);
+  async findOne(_id: string): Promise<Category> {
+    const category = await this.categoryModel.findById(_id).exec();
+    if (!category) {
+      throw new NotFoundException(`Category with id "${_id}" not found`);
     }
-
-    return exists;
-  }
-
-  async deleteCategory(_id: string): Promise<number> {
-    const result = await this.categoryModel
-      .deleteOne({
-        _id,
-      })
-      .exec();
-    return result.deletedCount;
+    return category;
   }
 
   async updateCategory(
     _id: string,
-    updateCategory: UpdateCategoryDto,
+    updateCategoryDto: UpdateCategoryDto,
   ): Promise<void> {
-    const exists = await this.categoryModel
-      .findOne({
-        _id,
-      })
-      .exec();
+    const category = await this.categoryModel.findById(_id).exec();
 
-    if (!exists) {
-      throw new NotFoundException(`
-          Category with _id:${_id} not found
-          `);
+    if (!category) {
+      throw new NotFoundException(`Category with id "${_id}" not found`);
     }
 
     await this.categoryModel
-      .findOneAndUpdate({ _id }, { $set: updateCategory })
+      .findByIdAndUpdate(_id, { $set: updateCategoryDto })
       .exec();
+  }
+
+  async deleteCategory(_id: string): Promise<number> {
+    const result = await this.categoryModel.deleteOne({ _id }).exec();
+    return result.deletedCount;
   }
 
   async assignPlayerToCategory(
     playerId: string,
     categoryId: string,
   ): Promise<void> {
-    const resultCategory = await this.categoryModel
-      .findOne({ _id: categoryId })
-      .exec();
+    const [category, player] = await Promise.all([
+      this.categoryModel.findById(categoryId).exec(),
+      this.playerService.findOnePlayerById(playerId),
+    ]);
 
-    const playersInCategory = await this.categoryModel
-      .find({ _id: categoryId })
-      .where('players')
-      .in([categoryId])
-      .exec();
-    const playerIsAlreadyInCategory = playersInCategory.length > 0;
+    if (!category) {
+      throw new NotFoundException(`Category with id "${categoryId}" not found`);
+    }
 
-    if (playerIsAlreadyInCategory) {
+    const alreadyAssigned = category.players.some(
+      (p) => p.toString() === playerId,
+    );
+    if (alreadyAssigned) {
       throw new BadRequestException(
-        `Player ${categoryId} is already in the Category ${categoryId}`,
+        `Player "${playerId}" is already assigned to category "${categoryId}"`,
       );
     }
 
-    await this.playerService.findOnePlayerById(_playerId);
-
-    if (!resultCategory) {
-      throw new BadRequestException(`Category ${_categoryId} does not exists`);
-    }
-
-    resultCategory.players.push(_playerId);
-
-    this.categoryModel
-      .findOneAndUpdate({ _id: _categoryId }, resultCategory)
+    category.players.push(player);
+    await this.categoryModel
+      .findByIdAndUpdate(categoryId, { $set: { players: category.players } })
       .exec();
   }
 }
