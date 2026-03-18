@@ -3,8 +3,11 @@ import { ChallengeStatus } from '../enum/challenge-status.enum';
 
 export class UpdateChallengeDto {
   @IsOptional()
-  challengerDate: Date;
+  challengeDate: Date;
 
   @IsOptional()
   status: ChallengeStatus;
+
+  @IsOptional()
+  match: string;
 }

@@ -10,7 +10,7 @@ import { Player } from '../../players/interfaces/player.interface';
 export class CreateChallengeDto {
   @IsDateString()
   @IsNotEmpty()
-  challengerDate: Date;
+  challengeDate: Date;
 
   @IsNotEmpty()
   requester: Player;

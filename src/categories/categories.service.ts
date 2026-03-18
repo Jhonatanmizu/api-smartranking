@@ -9,7 +9,7 @@ import { CATEGORY_MODEL } from './categories.providers';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
 import { Category } from './interfaces/category.interface';
-import { PlayersService } from 'src/players/players.service';
+import { PlayersService } from '../players/players.service';
 
 @Injectable()
 export class CategoriesService {
@@ -90,5 +90,9 @@ export class CategoriesService {
     await this.categoryModel
       .findByIdAndUpdate(categoryId, { $set: { players: category.players } })
       .exec();
+  }
+
+  async playerCategory(playerId: string): Promise<Category | null> {
+    return this.categoryModel.findOne({ players: { $in: [playerId] } }).exec();
   }
 }

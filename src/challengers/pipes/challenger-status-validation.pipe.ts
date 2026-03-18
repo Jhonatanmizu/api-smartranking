@@ -9,10 +9,14 @@ export class ChallengerStatusValidationPipe implements PipeTransform {
   ];
 
   transform(value: any) {
+    if (!value.status) {
+      return value;
+    }
+
     const status = value.status.toUpperCase();
 
     if (!this.isValidStatus(status)) {
-      throw new BadRequestException(`${status} é um status inválido`);
+      throw new BadRequestException(`${status} is an invalid status`);
     }
 
     return value;
