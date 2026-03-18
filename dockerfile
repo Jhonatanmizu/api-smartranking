@@ -4,13 +4,12 @@ FROM node:22
 WORKDIR /app
 
 # Install dependencies
-COPY --chown=node:node package*.json ./
-RUN npm ci
+COPY --chown=node:node package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
 # Copy over the app source
 COPY --chown=node:node . .
 
-RUN npm run build
+RUN yarn build
 
-
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "yarn", "start:dev" ]

@@ -11,7 +11,7 @@ import {
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly logger = new Logger(AllExceptionsFilter.name)) {}
 
-  catch(exception: any, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     const context = host.switchToHttp();
 
     const response = context.getResponse();

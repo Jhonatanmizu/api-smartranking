@@ -52,8 +52,8 @@ export class MatchesService {
 
       await this.challengersService.update(challengeId, {
         status: ChallengeStatus.FINISHED,
-        match: matchSaved._id,
-      } as any);
+        match: String(matchSaved._id),
+      });
 
       return matchSaved;
     } catch (error) {

@@ -8,12 +8,13 @@ export class ChallengerStatusValidationPipe implements PipeTransform {
     ChallengeStatus.CANCELED,
   ];
 
-  transform(value: any) {
-    if (!value.status) {
+  transform(value: unknown) {
+    if (typeof value !== 'object' || value === null || !('status' in value)) {
       return value;
     }
 
-    const status = value.status.toUpperCase();
+    const statusObj = value as { status: string };
+    const status = statusObj.status.toUpperCase();
 
     if (!this.isValidStatus(status)) {
       throw new BadRequestException(`${status} is an invalid status`);
@@ -22,8 +23,8 @@ export class ChallengerStatusValidationPipe implements PipeTransform {
     return value;
   }
 
-  private isValidStatus(status: any) {
-    const idx = this.acceptedStatus.indexOf(status);
+  private isValidStatus(status: string) {
+    const idx = this.acceptedStatus.indexOf(status as ChallengeStatus);
     return idx !== -1;
   }
 }

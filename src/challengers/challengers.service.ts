@@ -110,7 +110,13 @@ export class ChallengersService {
       throw new NotFoundException('Challenge not found');
     }
 
-    const updateData: any = { ...updateChallengeDto };
+    const updateData: Omit<Partial<Challenger>, 'match'> & {
+      answeredAt?: Date;
+      match?: any;
+    } = {
+      ...updateChallengeDto,
+    };
+
     if (updateChallengeDto.status) {
       updateData.answeredAt = new Date();
     }
