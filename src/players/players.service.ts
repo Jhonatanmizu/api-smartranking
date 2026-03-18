@@ -6,14 +6,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { CreatePlayerDto } from './dtos/create-player.dto';
-import { UpdatePlayerDto } from './dtos/update-player.dto';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './interfaces/player.interface';
 import { PLAYER_MODEL } from './players.provider';
 
 @Injectable()
 export class PlayersService {
-  private logger: Logger = new Logger('PlayersService');
+  private readonly logger = new Logger(PlayersService.name);
 
   constructor(
     @Inject(PLAYER_MODEL)

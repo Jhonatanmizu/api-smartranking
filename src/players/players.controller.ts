@@ -11,8 +11,8 @@ import {
 } from '@nestjs/common';
 
 import { ParamsValidationPipe } from 'src/shared/pipes';
-import { CreatePlayerDto } from './dtos/create-player.dto';
-import { UpdatePlayerDto } from './dtos/update-player.dto';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './interfaces/player.interface';
 import { PlayersService } from './players.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';

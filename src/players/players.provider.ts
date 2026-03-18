@@ -1,6 +1,6 @@
 import { Connection } from 'mongoose';
 import { DATABASE_CONNECTION } from 'src/shared/database/database.providers';
-import { PlayerSchema } from './schemas/player.schema';
+import { PlayerSchema } from './schema/player.schema';
 
 export const PLAYER_MODEL = 'PLAYER_MODEL';
 

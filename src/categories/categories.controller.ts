@@ -9,11 +9,11 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateCategoryDto } from './dtos/create-category.dto';
+import { CreateCategoryDto } from './dto/create-category.dto';
 import { CategoriesService } from './categories.service';
 import { Category } from './interfaces/category.interface';
 import { ParamsValidationPipe } from 'src/shared/pipes';
-import { UpdateCategoryDto } from './dtos/update-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Categories')

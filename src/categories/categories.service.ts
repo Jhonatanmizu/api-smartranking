@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CATEGORY_MODEL } from './categories.providers';
-import { CreateCategoryDto } from './dtos/create-category.dto';
-import { UpdateCategoryDto } from './dtos/update-category.dto';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './interfaces/category.interface';
 import { PlayersService } from '../players/players.service';
 

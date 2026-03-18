@@ -9,7 +9,7 @@ import {
 import { Model } from 'mongoose';
 import { MATCH_MODEL } from './match.providers';
 import { Match } from './interfaces/match.interface';
-import { CreateMatchDto } from './dtos/create-match.dto';
+import { CreateMatchDto } from './dto/create-match.dto';
 import { ChallengersService } from './challengers.service';
 import { ChallengeStatus } from './enum/challenge-status.enum';
 

@@ -5,14 +5,15 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateChallengeDto } from './dtos/create-challenge.dto';
+import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { CHALLENGER_MODEL } from './challengers.providers';
 import { Model } from 'mongoose';
 import { Challenger } from './interfaces/challenger.interface';
 import { PlayersService } from 'src/players/players.service';
 import { CategoriesService } from 'src/categories/categories.service';
-import { UpdateChallengeDto } from './dtos/update-challenge.dto';
+import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { ChallengeStatus } from './enum/challenge-status.enum';
+import { Match } from './interfaces/match.interface';
 
 @Injectable()
 export class ChallengersService {
@@ -112,7 +113,7 @@ export class ChallengersService {
 
     const updateData: Omit<Partial<Challenger>, 'match'> & {
       answeredAt?: Date;
-      match?: any;
+      match?: string | Match;
     } = {
       ...updateChallengeDto,
     };

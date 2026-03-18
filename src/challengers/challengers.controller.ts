@@ -11,11 +11,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ChallengersService } from './challengers.service';
-import { CreateChallengeDto } from './dtos/create-challenge.dto';
-import { UpdateChallengeDto } from './dtos/update-challenge.dto';
+import { CreateChallengeDto } from './dto/create-challenge.dto';
+import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { ChallengerStatusValidationPipe } from './pipes/challenger-status-validation.pipe';
 import { MatchesService } from './matches.service';
-import { CreateMatchDto } from './dtos/create-match.dto';
+import { CreateMatchDto } from './dto/create-match.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Challengers')
