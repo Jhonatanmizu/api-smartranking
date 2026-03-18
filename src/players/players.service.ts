@@ -22,6 +22,7 @@ export class PlayersService {
 
   async create(createPlayer: CreatePlayerDto): Promise<Player> {
     const { email } = createPlayer;
+    this.logger.log(`create player: ${email}`);
     const exists = await this.playerModel.findOne({ email }).exec();
 
     if (exists) {
@@ -34,6 +35,7 @@ export class PlayersService {
   }
 
   async update(_id: string, updatePlayerDto: UpdatePlayerDto): Promise<Player> {
+    this.logger.log(`update player: ${_id}`);
     await this.findOnePlayerById(_id);
     return await this.playerModel
       .findByIdAndUpdate(
@@ -46,10 +48,12 @@ export class PlayersService {
   }
 
   async findAllPlayers(): Promise<Player[]> {
+    this.logger.log('find all players');
     return await this.playerModel.find().exec();
   }
 
   async findOnePlayerByEmail(email: string): Promise<Player | null> {
+    this.logger.log(`find player by email: ${email}`);
     const exists = await this.playerModel
       .findOne({
         email,
@@ -63,6 +67,7 @@ export class PlayersService {
   }
 
   async findOnePlayerById(_id: string): Promise<Player> {
+    this.logger.log(`find player by id: ${_id}`);
     const exists = await this.playerModel
       .findOne({
         _id,
@@ -76,12 +81,14 @@ export class PlayersService {
   }
 
   async deletePlayer(_id: string): Promise<number> {
+    this.logger.log(`delete player: ${_id}`);
     await this.findOnePlayerById(_id);
     const result = await this.playerModel.deleteOne({ _id }).exec();
     return result.deletedCount;
   }
 
   async findManyPlayers(ids: string[]): Promise<Player[]> {
+    this.logger.log(`find many players: ${JSON.stringify(ids)}`);
     return await this.playerModel.find({ _id: { $in: ids } }).exec();
   }
 }

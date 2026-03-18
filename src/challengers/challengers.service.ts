@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateChallengeDto } from './dtos/create-challenge.dto';
@@ -15,6 +16,8 @@ import { ChallengeStatus } from './enum/challenge-status.enum';
 
 @Injectable()
 export class ChallengersService {
+  private readonly logger = new Logger(ChallengersService.name);
+
   constructor(
     @Inject(CHALLENGER_MODEL)
     private readonly challengerModel: Model<Challenger>,
@@ -23,6 +26,7 @@ export class ChallengersService {
   ) {}
 
   async createChallenge(createChallengeDto: CreateChallengeDto) {
+    this.logger.log(`createChallenge: ${JSON.stringify(createChallengeDto)}`);
     const requesterId: string = String(createChallengeDto.requester._id);
     const requesterExists =
       await this.playersService.findOnePlayerById(requesterId);
@@ -62,6 +66,7 @@ export class ChallengersService {
   }
 
   async findAll() {
+    this.logger.log('findAll challenges');
     return await this.challengerModel
       .find()
       .populate('players')
@@ -71,6 +76,7 @@ export class ChallengersService {
   }
 
   async findChallengesByPlayer(playerId: string) {
+    this.logger.log(`findChallengesByPlayer: ${playerId}`);
     return await this.challengerModel
       .find()
       .where('players')
@@ -82,10 +88,12 @@ export class ChallengersService {
   }
 
   async findMany(ids: string[]) {
+    this.logger.log(`findMany challenges: ${ids}`);
     return await this.challengerModel.find({ _id: { $in: ids } }).exec();
   }
 
   async findOne(id: string) {
+    this.logger.log(`findOne challenge: ${id}`);
     const challenge = await this.challengerModel.findById(id).exec();
     if (!challenge) {
       throw new NotFoundException(`Challenge with id ${id} not found`);
@@ -94,6 +102,9 @@ export class ChallengersService {
   }
 
   async update(id: string, updateChallengeDto: UpdateChallengeDto) {
+    this.logger.log(
+      `update challenge: ${id} with: ${JSON.stringify(updateChallengeDto)}`,
+    );
     const exists = await this.challengerModel.findById(id).exec();
     if (!exists) {
       throw new NotFoundException('Challenge not found');
@@ -110,6 +121,7 @@ export class ChallengersService {
   }
 
   async delete(id: string) {
+    this.logger.log(`delete challenge: ${id}`);
     const exists = await this.challengerModel.findById(id).exec();
     if (!exists) {
       throw new NotFoundException('Challenge not found');

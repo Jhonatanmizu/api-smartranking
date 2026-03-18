@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
@@ -13,6 +14,8 @@ import { PlayersService } from '../players/players.service';
 
 @Injectable()
 export class CategoriesService {
+  private readonly logger = new Logger(CategoriesService.name);
+
   constructor(
     @Inject(CATEGORY_MODEL)
     private readonly categoryModel: Model<Category>,
@@ -23,6 +26,7 @@ export class CategoriesService {
     createCategoryDto: CreateCategoryDto,
   ): Promise<Category> {
     const { name } = createCategoryDto;
+    this.logger.log(`create category: ${name}`);
 
     const exists = await this.categoryModel.findOne({ name }).lean().exec();
     if (exists) {
@@ -33,10 +37,12 @@ export class CategoriesService {
   }
 
   async findAll(): Promise<Category[]> {
+    this.logger.log('find all categories');
     return this.categoryModel.find().populate('players').exec();
   }
 
   async findOne(_id: string): Promise<Category> {
+    this.logger.log(`find category by id: ${_id}`);
     const category = await this.categoryModel.findById(_id).exec();
     if (!category) {
       throw new NotFoundException(`Category with id "${_id}" not found`);
@@ -48,6 +54,7 @@ export class CategoriesService {
     _id: string,
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<void> {
+    this.logger.log(`update category: ${_id}`);
     const category = await this.categoryModel.findById(_id).exec();
 
     if (!category) {
@@ -60,6 +67,7 @@ export class CategoriesService {
   }
 
   async deleteCategory(_id: string): Promise<number> {
+    this.logger.log(`delete category: ${_id}`);
     const result = await this.categoryModel.deleteOne({ _id }).exec();
     return result.deletedCount;
   }
@@ -68,6 +76,7 @@ export class CategoriesService {
     playerId: string,
     categoryId: string,
   ): Promise<void> {
+    this.logger.log(`assign player: ${playerId} to category: ${categoryId}`);
     const [category, player] = await Promise.all([
       this.categoryModel.findById(categoryId).exec(),
       this.playerService.findOnePlayerById(playerId),
@@ -93,6 +102,7 @@ export class CategoriesService {
   }
 
   async playerCategory(playerId: string): Promise<Category | null> {
+    this.logger.log(`find category by player id: ${playerId}`);
     return this.categoryModel.findOne({ players: { $in: [playerId] } }).exec();
   }
 }

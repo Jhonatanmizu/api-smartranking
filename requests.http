@@ -82,3 +82,57 @@ Content-Type: application/json
 DELETE {{apiurl}}/api/v1/categories/{{categoryId}}
 
 #####################################################
+
+
+################## CHALLENGES RELATED ##################
+@challengeId = 67946a48b553f86f559ad0c1
+@player1Id = 67945c8d0ebd8a00728ae7b5
+@player2Id = 67945c910ebd8a00728ae7b7
+
+### CREATE CHALLENGE
+POST {{apiurl}}/api/v1/challengers
+Content-Type: application/json
+
+{
+  "challengeDate": "2026-03-20T15:00:00Z",
+  "requester": { "_id": "{{player1Id}}" },
+  "players": [
+    { "_id": "{{player1Id}}" },
+    { "_id": "{{player2Id}}" }
+  ]
+}
+
+### GET ALL CHALLENGES
+GET {{apiurl}}/api/v1/challengers
+
+### GET CHALLENGES BY PLAYER
+GET {{apiurl}}/api/v1/challengers?playerId={{player1Id}}
+
+### GET CHALLENGE BY ID
+GET {{apiurl}}/api/v1/challengers/{{challengeId}}
+
+### UPDATE CHALLENGE (Status/Date)
+PUT {{apiurl}}/api/v1/challengers/{{challengeId}}
+Content-Type: application/json
+
+{
+  "status": "ACCEPTED"
+}
+
+### ASSIGN MATCH TO CHALLENGE (Result)
+POST {{apiurl}}/api/v1/challengers/{{challengeId}}/match
+Content-Type: application/json
+
+{
+  "def": { "_id": "{{player1Id}}" },
+  "result": [
+    { "set": "6-1" },
+    { "set": "4-6" },
+    { "set": "7-5" }
+  ]
+}
+
+### DELETE CHALLENGE
+DELETE {{apiurl}}/api/v1/challengers/{{challengeId}}
+
+#####################################################

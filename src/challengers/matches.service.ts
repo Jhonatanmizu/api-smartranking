@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
@@ -14,6 +15,8 @@ import { ChallengeStatus } from './enum/challenge-status.enum';
 
 @Injectable()
 export class MatchesService {
+  private readonly logger = new Logger(MatchesService.name);
+
   constructor(
     @Inject(MATCH_MODEL)
     private readonly matchModel: Model<Match>,
@@ -24,6 +27,7 @@ export class MatchesService {
     challengeId: string,
     createMatchDto: CreateMatchDto,
   ): Promise<Match> {
+    this.logger.log(`createMatch for challenge: ${challengeId}`);
     const challenge = await this.challengersService.findOne(challengeId);
 
     if (!challenge) {
@@ -44,6 +48,7 @@ export class MatchesService {
 
     try {
       const matchSaved = await newMatch.save();
+      this.logger.log(`match saved: ${matchSaved._id}`);
 
       await this.challengersService.update(challengeId, {
         status: ChallengeStatus.FINISHED,
@@ -52,11 +57,13 @@ export class MatchesService {
 
       return matchSaved;
     } catch (error) {
+      this.logger.error(`error saving match: ${error.message}`);
       throw new InternalServerErrorException();
     }
   }
 
   async findAll(): Promise<Match[]> {
+    this.logger.log('findAll matches');
     return await this.matchModel
       .find()
       .populate('players')
