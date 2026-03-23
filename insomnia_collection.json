@@ -1,0 +1,524 @@
+{
+  "__export_format": 4,
+  "__export_date": "2026-03-22T02:43:03.720Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_smartranking",
+      "parentId": null,
+      "modified": 1774147383720,
+      "created": 1774147383720,
+      "name": "SmartRanking API",
+      "description": "API collection for SmartRanking project",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_smartranking",
+      "modified": 1774147383720,
+      "created": 1774147383720,
+      "name": "Base Environment",
+      "data": {
+        "apiurl": "http://localhost:3001",
+        "playerId": "69b7626c1db34eaf13a1cfd4",
+        "categoryId": "69ba14e934ccd240cac43ff5",
+        "challengeId": "69ba155334ccd240cac4400b",
+        "player1Id": "69b7626c1db34eaf13a1cfd4",
+        "player2Id": "69b764e4a799ea41aa26960f"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "apiurl",
+          "playerId",
+          "categoryId",
+          "challengeId",
+          "player1Id",
+          "player2Id"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1774147383720,
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_players",
+      "parentId": "wrk_smartranking",
+      "modified": 1774147383720,
+      "created": 1774147383720,
+      "name": "Players",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -100,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_categories",
+      "parentId": "wrk_smartranking",
+      "modified": 1774147383720,
+      "created": 1774147383720,
+      "name": "Categories",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -50,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_challenges",
+      "parentId": "wrk_smartranking",
+      "modified": 1774147383720,
+      "created": 1774147383720,
+      "name": "Challenges",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 0,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_get_players",
+      "parentId": "fld_players",
+      "name": "GET PLAYERS",
+      "method": "GET",
+      "url": "{{ _.apiurl }}/api/v1/players",
+      "body": {},
+      "metaSortKey": 1,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_player",
+      "parentId": "fld_players",
+      "name": "CREATE PLAYER",
+      "method": "POST",
+      "url": "{{ _.apiurl }}/api/v1/players",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Player Name 2\",\n  \"email\": \"player2@example.com\",\n  \"phoneNumber\": \"1234567892\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 2,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_player_by_id",
+      "parentId": "fld_players",
+      "name": "GET PLAYER BY ID",
+      "method": "GET",
+      "url": "{{ _.apiurl }}/api/v1/players/{{ _.playerId }}",
+      "body": {},
+      "metaSortKey": 3,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_player",
+      "parentId": "fld_players",
+      "name": "UPDATE PLAYER BY ID",
+      "method": "PUT",
+      "url": "{{ _.apiurl }}/api/v1/players/{{ _.playerId }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Updated Player Name\",\n  \"email\": \"updatedplayer@example.com\",\n  \"phoneNumber\": \"0987654321\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 4,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_player",
+      "parentId": "fld_players",
+      "name": "DELETE PLAYER BY ID",
+      "method": "DELETE",
+      "url": "{{ _.apiurl }}/api/v1/players/{{ _.playerId }}",
+      "body": {},
+      "metaSortKey": 5,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_categories",
+      "parentId": "fld_categories",
+      "name": "GET CATEGORIES",
+      "method": "GET",
+      "url": "{{ _.apiurl }}/api/v1/categories",
+      "body": {},
+      "metaSortKey": 1,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_category",
+      "parentId": "fld_categories",
+      "name": "CREATE CATEGORY",
+      "method": "POST",
+      "url": "{{ _.apiurl }}/api/v1/categories",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Category Name\",\n  \"description\": \"Category Description\",\n  \"events\": [\n    {\n      \"name\": \"party\"\n    }\n  ]\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 2,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_assign_player",
+      "parentId": "fld_categories",
+      "name": "ASSIGN PLAYER TO CATEGORY",
+      "method": "POST",
+      "url": "{{ _.apiurl }}/api/v1/categories/{{ _.categoryId }}/players/{{ _.playerId }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 3,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_category_by_id",
+      "parentId": "fld_categories",
+      "name": "GET CATEGORY BY ID",
+      "method": "GET",
+      "url": "{{ _.apiurl }}/api/v1/categories/{{ _.categoryId }}",
+      "body": {},
+      "metaSortKey": 4,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_category",
+      "parentId": "fld_categories",
+      "name": "UPDATE CATEGORY BY ID",
+      "method": "PUT",
+      "url": "{{ _.apiurl }}/api/v1/categories/{{ _.categoryId }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Updated Category Name\",\n  \"description\": \"Updated Category Description\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 5,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_category",
+      "parentId": "fld_categories",
+      "name": "DELETE CATEGORY BY ID",
+      "method": "DELETE",
+      "url": "{{ _.apiurl }}/api/v1/categories/{{ _.categoryId }}",
+      "body": {},
+      "metaSortKey": 6,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_challenge",
+      "parentId": "fld_challenges",
+      "name": "CREATE CHALLENGE",
+      "method": "POST",
+      "url": "{{ _.apiurl }}/api/v1/challengers",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"challengeDate\": \"2026-03-20T15:00:00Z\",\n  \"requester\": {\n    \"_id\": \"{{ _.player1Id }}\"\n  },\n  \"players\": [\n    {\n      \"_id\": \"{{ _.player1Id }}\"\n    },\n    {\n      \"_id\": \"{{ _.player2Id }}\"\n    }\n  ]\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 1,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_challenges",
+      "parentId": "fld_challenges",
+      "name": "GET ALL CHALLENGES",
+      "method": "GET",
+      "url": "{{ _.apiurl }}/api/v1/challengers",
+      "body": {},
+      "metaSortKey": 2,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_challenges_by_player",
+      "parentId": "fld_challenges",
+      "name": "GET CHALLENGES BY PLAYER",
+      "method": "GET",
+      "url": "{{ _.apiurl }}/api/v1/challengers?playerId={{ _.player1Id }}",
+      "body": {},
+      "metaSortKey": 3,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_challenge_by_id",
+      "parentId": "fld_challenges",
+      "name": "GET CHALLENGE BY ID",
+      "method": "GET",
+      "url": "{{ _.apiurl }}/api/v1/challengers/{{ _.challengeId }}",
+      "body": {},
+      "metaSortKey": 4,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_challenge",
+      "parentId": "fld_challenges",
+      "name": "UPDATE CHALLENGE",
+      "method": "PUT",
+      "url": "{{ _.apiurl }}/api/v1/challengers/{{ _.challengeId }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"ACCEPTED\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 5,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_assign_match",
+      "parentId": "fld_challenges",
+      "name": "ASSIGN MATCH TO CHALLENGE",
+      "method": "POST",
+      "url": "{{ _.apiurl }}/api/v1/challengers/{{ _.challengeId }}/match",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"def\": {\n    \"_id\": \"{{ _.player1Id }}\"\n  },\n  \"result\": [\n    {\n      \"set\": \"6-1\"\n    },\n    {\n      \"set\": \"4-6\"\n    },\n    {\n      \"set\": \"7-5\"\n    }\n  ]\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaSortKey": 6,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_challenge",
+      "parentId": "fld_challenges",
+      "name": "DELETE CHALLENGE",
+      "method": "DELETE",
+      "url": "{{ _.apiurl }}/api/v1/challengers/{{ _.challengeId }}",
+      "body": {},
+      "metaSortKey": 7,
+      "modified": 1774147383721,
+      "created": 1774147383721,
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    }
+  ]
+}

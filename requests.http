@@ -5,7 +5,7 @@
 
 
 ################## PLAYERS RELATED ##################
-@playerId = 67945c8d0ebd8a00728ae7b5
+@playerId = 69b7626c1db34eaf13a1cfd4
 
 ### GET PLAYERS
 GET {{apiurl}}/api/v1/players
@@ -41,7 +41,7 @@ DELETE {{apiurl}}/api/v1/players/{{playerId}}
 
 
 ################## CATEGORIES RELATED ##################
-@categoryId = 67945fa2b553f86f559ad0bc
+@categoryId = 69ba14e934ccd240cac43ff5
 
 ### GET CATEGORIES
 GET {{apiurl}}/api/v1/categories
@@ -85,9 +85,9 @@ DELETE {{apiurl}}/api/v1/categories/{{categoryId}}
 
 
 ################## CHALLENGES RELATED ##################
-@challengeId = 67946a48b553f86f559ad0c1
-@player1Id = 67945c8d0ebd8a00728ae7b5
-@player2Id = 67945c910ebd8a00728ae7b7
+@challengeId = 69ba155334ccd240cac4400b
+@player1Id = 69b7626c1db34eaf13a1cfd4
+@player2Id = 69b764e4a799ea41aa26960f
 
 ### CREATE CHALLENGE
 POST {{apiurl}}/api/v1/challengers
